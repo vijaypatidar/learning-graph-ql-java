@@ -1,10 +1,7 @@
 package com.example.graphqljava.graphql;
 
 import graphql.Scalars;
-import graphql.schema.FieldCoordinates;
-import graphql.schema.GraphQLCodeRegistry;
-import graphql.schema.GraphQLList;
-import graphql.schema.GraphQLObjectType;
+import graphql.schema.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +14,11 @@ public class SchemaBuilderHelper {
     public void buildQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
         queryBuilder.name("Query");
         buildUserQuery(queryBuilder, codeRegistry);
-        buildUsersQuery(queryBuilder,codeRegistry);
+        buildUsersQuery(queryBuilder, codeRegistry);
+        buildNoteQuery(queryBuilder, codeRegistry);
+        buildNotesQuery(queryBuilder, codeRegistry);
     }
+
 
     private void buildUserQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
         //getting GraphQLObjectType for User
@@ -46,5 +46,17 @@ public class SchemaBuilderHelper {
         codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "users"), myDataFetchers.getUsersDataFetcher());
     }
 
+    private void buildNoteQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+        GraphQLObjectType noteType = myGraphQLObjectTypes.getPostType();
+        queryBuilder.field(builder -> builder.name("post").type(noteType)
+                .argument(builderArg -> builderArg.name("postId").type(new GraphQLNonNull(Scalars.GraphQLString))));
+        codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "post"), myDataFetchers.getPostDataFetcher());
+    }
+
+    private void buildNotesQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+        GraphQLObjectType noteType = myGraphQLObjectTypes.getPostType();
+        queryBuilder.field(builder -> builder.name("posts").type(new GraphQLList(noteType)));
+        codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "posts"), myDataFetchers.getPostsDataFetcher());
+    }
 
 }
