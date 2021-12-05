@@ -2,6 +2,7 @@ package com.example.graphqljava.services;
 
 import com.example.graphqljava.models.User;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 
@@ -10,10 +11,11 @@ public class UserService {
     private static final List<User> users;
 
     static {
-        User user1 = new User("Ram","ram@gmail.com");
-        User user2 = new User("Vijay","vijay@gmail.com");
-        User user3 = new User("aman","aman@gmail.com");
-        users =  java.util.List.of(user1, user2,user3);
+        User user = new User();
+        user.setUserId("vijay");
+        user.setName("VIJAY");
+        user.setEmail("vijay@gmail.com");
+        users = java.util.List.of(user);
     }
 
     public User getUserByEmail(String email) {
