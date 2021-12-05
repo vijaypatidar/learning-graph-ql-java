@@ -4,11 +4,11 @@ import com.example.graphqljava.models.requests.GraphQLRequest;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import graphql.schema.GraphQLSchema;
+import graphql.schema.idl.SchemaPrinter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +20,13 @@ import java.util.Optional;
 public class GraphQLController {
 
     private final GraphQL graphQL;
+    private final GraphQLSchema schema;
+    private final SchemaPrinter schemaPrinter;
+
+    @GetMapping(produces = MediaType.TEXT_PLAIN_VALUE)
+    public String schema(){
+        return schemaPrinter.print(schema);
+    }
 
     @PostMapping
     public Object execute(@RequestBody GraphQLRequest graphQLRequest) {
@@ -41,7 +48,7 @@ public class GraphQLController {
         if (!execute.getErrors().isEmpty()) {
             result.put("error", execute.getErrors());
         }
-
         return result;
     }
+
 }
