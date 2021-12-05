@@ -157,7 +157,7 @@ public class GraphQLRequest {
 }
 ```
 
-## 3. Let's create a controller class for handling GraphQL request(GraphQLController)
+## 5. Let's create a controller class for handling GraphQL request(GraphQLController)
 
 ### This GraphQLController will contain basically two endpoints
 
@@ -206,3 +206,6 @@ public class GraphQLController {
 }
 
 ```
+# Now we have build simple Spring app with graphQL 
+
+![img.png](img.png)
