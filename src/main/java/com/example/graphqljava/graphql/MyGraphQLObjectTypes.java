@@ -1,6 +1,7 @@
 package com.example.graphqljava.graphql;
 
 import graphql.Scalars;
+import graphql.schema.GraphQLInputObjectType;
 import graphql.schema.GraphQLList;
 import graphql.schema.GraphQLObjectType;
 import lombok.Data;
@@ -28,5 +29,13 @@ public class MyGraphQLObjectTypes {
             .field(builder -> builder.name("description").type(Scalars.GraphQLString))
             .field(builder -> builder.name("userId").type(Scalars.GraphQLString))
             .build();
+
+    private final GraphQLInputObjectType postInputType = new GraphQLInputObjectType.Builder()
+            .name("PostInput")
+            .field(builder -> builder.name("title").type(Scalars.GraphQLString))
+            .field(builder -> builder.name("description").type(Scalars.GraphQLString))
+            .field(builder -> builder.name("userId").type(Scalars.GraphQLString))
+            .build();
+
 
 }
