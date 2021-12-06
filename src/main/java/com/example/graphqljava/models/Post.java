@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class Post {
-    private String title, description, userId, noteId;
+    private String title, description, userId, postId;
     private List<Comment> comments;
 }

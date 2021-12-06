@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class SchemaBuilderHelper {
+    private final String QUERY = "Query";
+    private final String MUTATION = "Mutation";
     private final MyGraphQLObjectTypes myGraphQLObjectTypes;
     private final MyDataFetchers myDataFetchers;
 
@@ -19,6 +21,31 @@ public class SchemaBuilderHelper {
         buildNotesQuery(queryBuilder, codeRegistry);
     }
 
+    public void buildMutation(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+        queryBuilder.name(MUTATION);
+        addPostMutation(queryBuilder, codeRegistry);
+        deletePostMutation(queryBuilder,codeRegistry);
+    }
+
+    private void addPostMutation(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+        queryBuilder.field(builder ->
+                builder
+                        .name("addPost").type(myGraphQLObjectTypes.getPostType())
+                        .argument(builder1 -> builder1.name("post").type(myGraphQLObjectTypes.getPostInputType()))
+        );
+        codeRegistry.dataFetcher(FieldCoordinates.coordinates(MUTATION, "addPost"), myDataFetchers.getAddPostDataFetcher());
+    }
+
+    private void deletePostMutation(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+        queryBuilder.field(builder ->
+                builder
+                        .name("deletePost")
+                        .type(Scalars.GraphQLString)
+                        .argument(builder1 -> builder1.name("postId").type(new GraphQLNonNull(Scalars.GraphQLString)))
+        );
+        codeRegistry.dataFetcher(FieldCoordinates.coordinates(MUTATION, "deletePost"), myDataFetchers.getDeletePostDataFetcher());
+
+    }
 
     private void buildUserQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
         //getting GraphQLObjectType for User

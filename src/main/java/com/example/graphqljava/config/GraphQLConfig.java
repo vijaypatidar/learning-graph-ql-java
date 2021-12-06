@@ -21,11 +21,13 @@ public class GraphQLConfig {
     public GraphQLSchema getGraphQLSchema(SchemaBuilderHelper schemaBuilderHelper) {
         GraphQLCodeRegistry.Builder codeRegistry = GraphQLCodeRegistry.newCodeRegistry();
         GraphQLObjectType.Builder queryBuilder = GraphQLObjectType.newObject();
+        GraphQLObjectType.Builder mutationBuilder = GraphQLObjectType.newObject();
         //build query type
         schemaBuilderHelper.buildQuery(queryBuilder,codeRegistry);
-
+        schemaBuilderHelper.buildMutation(mutationBuilder,codeRegistry);
         return GraphQLSchema.newSchema()
                 .query(queryBuilder.build())
+                .mutation(mutationBuilder.build())
                 .codeRegistry(codeRegistry.build())
                 .build();
     }
