@@ -30,10 +30,10 @@ public class MyDataFetchers {
         };
     }
 
-    public DataFetcher<User> getPostDataFetcher() {
+    public DataFetcher<Post> getPostDataFetcher() {
         return env -> {
             String emailArg = env.getArgument("postId");
-            return userService.getUserByEmail(emailArg);
+            return postService.getPostById(emailArg);
         };
     }
 

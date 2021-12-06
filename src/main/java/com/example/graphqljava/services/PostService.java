@@ -20,7 +20,7 @@ public class PostService {
         comment1.setDateTime(LocalDateTime.now());
 
         Post post = new Post();
-        post.setPostId("");
+        post.setPostId("gv1");
         post.setUserId("vijay");
         post.setTitle("Give and Take");
         post.setDescription("Book by Adam Grant");
@@ -49,5 +49,9 @@ public class PostService {
         }else {
             return "post not found";
         }
+    }
+
+    public Post getPostById(String postId) {
+        return POSTS.stream().filter(post -> post.getPostId().equals(postId)).findFirst().orElse(null);
     }
 }
