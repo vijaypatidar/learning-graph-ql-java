@@ -17,8 +17,9 @@ public class SchemaBuilderHelper {
         queryBuilder.name("Query");
         buildUserQuery(queryBuilder, codeRegistry);
         buildUsersQuery(queryBuilder, codeRegistry);
-        buildNoteQuery(queryBuilder, codeRegistry);
-        buildNotesQuery(queryBuilder, codeRegistry);
+        buildPostQuery(queryBuilder, codeRegistry);
+        buildPostsQuery(queryBuilder, codeRegistry);
+        codeRegistry.dataFetcher(FieldCoordinates.coordinates("Post","comments"),myDataFetchers.getCommentsDataFetcher());
     }
 
     public void buildMutation(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
@@ -73,14 +74,14 @@ public class SchemaBuilderHelper {
         codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "users"), myDataFetchers.getUsersDataFetcher());
     }
 
-    private void buildNoteQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+    private void buildPostQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
         GraphQLObjectType noteType = myGraphQLObjectTypes.getPostType();
         queryBuilder.field(builder -> builder.name("post").type(noteType)
                 .argument(builderArg -> builderArg.name("postId").type(new GraphQLNonNull(Scalars.GraphQLString))));
         codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "post"), myDataFetchers.getPostDataFetcher());
     }
 
-    private void buildNotesQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
+    private void buildPostsQuery(GraphQLObjectType.Builder queryBuilder, GraphQLCodeRegistry.Builder codeRegistry) {
         GraphQLObjectType noteType = myGraphQLObjectTypes.getPostType();
         queryBuilder.field(builder -> builder.name("posts").type(new GraphQLList(noteType)));
         codeRegistry.dataFetcher(FieldCoordinates.coordinates("Query", "posts"), myDataFetchers.getPostsDataFetcher());
