@@ -1,7 +1,9 @@
 package com.example.graphqljava.graphql;
 
+import com.example.graphqljava.models.Comment;
 import com.example.graphqljava.models.Post;
 import com.example.graphqljava.models.User;
+import com.example.graphqljava.services.CommentService;
 import com.example.graphqljava.services.PostService;
 import com.example.graphqljava.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +11,7 @@ import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,7 @@ import java.util.Map;
 public class MyDataFetchers {
     private final UserService userService;
     private final PostService postService;
+    private final CommentService commentService;
     private final ObjectMapper objectMapper;
 
     public DataFetcher<List<User>> getUsersDataFetcher() {
@@ -52,6 +56,13 @@ public class MyDataFetchers {
         return env->{
             String postIdArg = env.getArgument("postId");
             return postService.deletePost(postIdArg);
+        };
+    }
+
+    public DataFetcher<List<Comment>> getCommentsDataFetcher() {
+        return env->{
+            Post post = env.getSource();
+            return commentService.getComments(post.getPostId());
         };
     }
 }
