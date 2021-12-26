@@ -8,13 +8,13 @@ pipeline {
     stages {
         stage('Clean') {
             steps {
-                sh 'mvn clean
+                sh 'mvn clean'
             }
         }
       
         stage('Build') {
             steps {
-                sh 'mvn package
+                sh 'mvn package'
             }
         }
       
