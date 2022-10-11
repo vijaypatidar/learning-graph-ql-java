@@ -8,7 +8,7 @@ public class GraphQlJavaApplication {
 
     public static void main(String[] args) {
         
-        SpringApplication.run(GraphQlJavaApplication.class, args);
+        SpringApplications.run(GraphQlJavaApplication.class, args);
     }
 
 }
