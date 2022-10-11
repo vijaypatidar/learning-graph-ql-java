@@ -12,15 +12,17 @@ pipeline {
             }
         }
       
-        stage('Build') {
-            steps {
-                sh 'mvn package'
-            }
-        }
       
         stage('Test') {
             steps {
                 sh 'mvn test'
+            }
+        }
+        
+        
+        stage('Build') {
+            steps {
+                sh 'mvn package'
             }
         }
     }
